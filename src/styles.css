@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+:root {
+  --twn-font: BoosterNextFY;
+  --twn-textFont: "Open Sans";
+  --twn-rootFontSize: 16px;
+  --twn-highlightColor: #14cc76;
+  --twn-textColor: #3a3d57;
+  --twn-alternateTextColor: #fff;
+  --twn-secondaryColor: #ff57a2;
+  --twn-backgroundColor: #3a3d57;
+  --twn-linkHoverColor: #03875c;
+  --twn-blockColor: #efefef;
+  --twn-menuWidth: 220px;
+  --twnMaxWidth: 1000px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  background: var(--twn-backgroundColor);
+  margin: 0;
+  color: var(--twn-alternateTextColor);
+  font-family: var(--twn-textFont);
+}
+
+body {
+  font-size: var(--twn-rootFontSize);
+}
+
+.page {
+  background-image: url(/assets/images/bg-deco-left.svg),
+    url(/assets/images/bg-deco-right.svg);
+  background-repeat: no-repeat;
+  background-position: var(--twn-menuWidth) bottom, 100% 0;
+  background-size: 150px, 250px;
+  background-attachment: fixed;
+  display: block;
+  margin-left: var(--twn-menuWidth);
+  /* height: 100vh; */
+  overflow: auto;
+  padding: 5rem 2.5rem;
+}
+
+@media screen and (max-width: calc(var(--twn-menuWidth) + 20px)) {
+  .page {
+    margin-left: 20px;
+    background-position: 0 bottom, 100% 0;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 7.5rem;
+  }
+}
+
+.inline,
+.page {
+  position: relative;
+}
+
+@font-face {
+  font-family: "BoosterNextFY";
+  src: url("assets/fonts/BoosterNextFY-Medium.woff2") format("woff2");
+}
+
+.menu {
+  position: fixed;
+  background: #fff;
+  top: 0;
+  left: 0;
+  width: var(--twn-menuWidth);
+  padding: 1.5625rem;
+  height: 100vh;
+  z-index: 900;
+  overflow: auto;
+}
+
+.inline {
+  /* position: relative; */
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--twn-font);
+  text-align: center;
+  flex-direction: column;
+  max-width: 1000px;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.8125rem;
+  color: var(--twn-highlightColor);
+  font-weight: 700;
+  margin: 0;
+  display: block;
+}
+
+h1,
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--twn-font);
+}
+
+p {
+  margin: 0;
+  font-size: 2.4375rem;
+  display: block;
+  text-align: center;
+  /* font-weight: 700; */
+}
+
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  list-style: none;
+  padding: 0;
+  text-align: right;
+}
+
+.vertical-list img {
+  margin: 1.5625rem 0 3.125rem;
+  display: block;
+  overflow: clip;
+  cursor: pointer;
+}
+
+.nav {
+  font-family: "BoosterNextFY";
+  font-size: 16px;
+  display: block;
+  padding: 0.7rem 1rem;
+  text-align: right;
+  text-decoration: none;
+  color: var(--twn-textColor);
+  font-size: 1.1875rem;
+  text-transform: uppercase;
+  transition: transform 0.25s;
+  transform-origin: right center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.nav:hover {
+  transform: translateX(5px);
+  color: #03875c;
+  transform: scale(1.05);
+}
+
+.nav.active {
+  color: #03875c;
+  transform: scale(1.05);
+}

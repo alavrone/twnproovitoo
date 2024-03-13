@@ -1,0 +1,177 @@
+<div class="page">
+  <div class="inline">
+    <h1>NIMEKIRI</h1>
+
+    <div *ngIf="isLoading">
+      <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
+    </div>
+    <div class="tableWrapper" *ngIf="!isLoading">
+      <table>
+        <thead>
+          <tr class="trHeader">
+            <th (click)="changeSortColumn('firstname')">
+              Eesnimi
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('firstname') === 'def'"
+                src="assets/images/sort-solid.svg"
+                alt="Default"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('firstname') === 'asc'"
+                src="assets/images/sort-down-solid.svg"
+                alt="Ascending"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('firstname') === 'desc'"
+                src="assets/images/sort-up-solid.svg"
+                alt="Descending"
+              />
+            </th>
+            <th (click)="changeSortColumn('surname')">
+              Perekonnanimi
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('surname') === 'def'"
+                src="assets/images/sort-solid.svg"
+                alt="Default"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('surname') === 'asc'"
+                src="assets/images/sort-down-solid.svg"
+                alt="Ascending"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('surname') === 'desc'"
+                src="assets/images/sort-up-solid.svg"
+                alt="Descending"
+              />
+            </th>
+            <th (click)="changeSortColumn('sex')">
+              Sugu
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('sex') === 'def'"
+                src="assets/images/sort-solid.svg"
+                alt="Default"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('sex') === 'asc'"
+                src="assets/images/sort-down-solid.svg"
+                alt="Ascending"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('sex') === 'desc'"
+                src="assets/images/sort-up-solid.svg"
+                alt="Descending"
+              />
+            </th>
+            <th (click)="changeSortColumn('personal_code')">
+              Sünnikuupäev
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('personal_code') === 'def'"
+                src="assets/images/sort-solid.svg"
+                alt="Default"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('personal_code') === 'asc'"
+                src="assets/images/sort-down-solid.svg"
+                alt="Ascending"
+              />
+              <img
+                class="icon"
+                *ngIf="getColumnSortState('personal_code') === 'desc'"
+                src="assets/images/sort-up-solid.svg"
+                alt="Descending"
+              />
+            </th>
+            <th>Telefon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of paginateData()">
+            <tr [class.toggled]="isRowToggled(item)" (click)="toggleRow(item)">
+              <td>{{ item.firstname }}</td>
+              <td>{{ item.surname }}</td>
+              <td>{{ changeSex(item.sex) }}</td>
+              <td>{{ reverseDates(convertBirthday(item.personal_code)) }}</td>
+              <td>{{ item.phone }}</td>
+            </tr>
+            <tr *ngIf="isRowToggled(item)">
+              <td colspan="5" class="rowSection">
+                <div class="tab">
+                  <div
+                    class="sectionImg"
+                    [style.background-image]="
+                      'url(' + (item?.image.large || '') + ')'
+                    "
+                  ></div>
+                  <div class="rowBody">
+                    <div
+                      class="parag"
+                      *ngFor="
+                        let paragraph of parseParagraphs(item.body)
+                          | slice : 0 : 2
+                      "
+                    >
+                      <p>
+                        {{ paragraph }}
+                      </p>
+                    </div>
+                    <a class="buttonSmall" href="/article/item.id"
+                      >LOE ROHKEM</a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
+      <div class="paginator">
+        <button
+          class="arrowButtons"
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
+          <img
+            class="arrows"
+            src="assets/images/chevron-left-solid.svg"
+            alt="Left"
+          />
+          <!-- Previous -->
+        </button>
+        <ng-container *ngFor="let page of getPageRange()">
+          <button
+            class="pageButton"
+            [class.active]="currentPage === page"
+            (click)="changePage(page)"
+          >
+            {{ page }}
+          </button>
+        </ng-container>
+        <button
+          class="arrowButtons"
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage * pageSize >= data.length"
+        >
+          <img
+            class="arrows"
+            src="assets/images/chevron-right-solid.svg"
+            alt="Right"
+          />
+          <!-- Next -->
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
