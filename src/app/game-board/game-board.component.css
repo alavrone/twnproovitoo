@@ -1,0 +1,156 @@
+h1 {
+  color: white;
+  margin-bottom: 2rem;
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  text-indent: initial;
+  border-spacing: 0.5px;
+  margin: 0 auto;
+  table-layout: fixed;
+  box-sizing: border-box;
+  border-color: gray;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+td {
+  width: 14px;
+  height: 14px;
+  /* border: 1px solid gray; */
+}
+
+td div {
+  width: 100%;
+  height: 100%;
+  background: #adf0d028;
+}
+
+.alive div {
+  background-color: white;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 1.25rem;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.formItem {
+  flex-grow: 1;
+  position: relative;
+}
+
+.formItemLabel {
+  font-size: 1rem;
+  margin: 0 0 0.3125rem;
+}
+
+.selectGrid {
+  overflow: visible !important;
+  margin: 0em;
+  white-space: pre;
+  border-width: 1px;
+  border-style: solid;
+  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  border-image: initial;
+  -webkit-rtl-ordering: logical;
+  background-color: field;
+  text-align: start;
+  text-rendering: auto;
+  color: fieldtext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+
+  display: block;
+  width: 100%;
+  height: 2.375rem;
+  appearance: none;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+option {
+  font-weight: normal;
+  display: block;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
+  white-space: nowrap;
+}
+
+.formButton {
+  margin: 1.3rem 0 0;
+  font-size: 0.75rem;
+  padding: 0.85em 1.7em;
+  transition: background-color 0.25s ease-out;
+  font-family: var(--twn-font);
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: #14cc76;
+  color: #3a3d57;
+  appearance: none;
+  border: none;
+  text-decoration: none;
+  border-bottom: 0.25rem solid #37945c;
+  text-transform: uppercase;
+}
+
+.aliveLabel {
+  font-size: 1.1rem;
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+.alivePercentage {
+  position: relative;
+  width: 100%;
+  display: block;
+  height: 2rem;
+  background: #f1f1f1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 0 0 1.25rem;
+}
+
+.alivePercentageIndicator {
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--twn-highlightColor);
+  transition: width 0.25s;
+  text-align: right;
+  font-size: 0.8125rem;
+  line-height: 2rem;
+  text-shadow: 0.0625rem 0.0625rem 0.0625rem rgba(0, 0, 0, 0.7);
+}
+
+.aliveNumber {
+  display: block;
+  padding: 0 0.625rem;
+}

@@ -1,0 +1,104 @@
+<div class="page">
+  <div class="inline">
+    <h1>CONWAYS GAME FO LIFE</h1>
+    <form class="form" (ngSubmit)="applyChanges()">
+      <div class="formItem">
+        <label class="formItemLabel" for="gridWidth">Grid Width</label>
+        <select
+          class="selectGrid"
+          id="gridWidth"
+          name="gridWidth"
+          [(ngModel)]="newGridWidth"
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+          <option value="60">60</option>
+          <option value="70">70</option>
+          <option value="80">80</option>
+        </select>
+      </div>
+
+      <div class="formItem">
+        <label class="formItemLabel" for="gridHeight">Grid Height</label>
+        <select
+          class="selectGrid"
+          id="gridHeight"
+          name="gridHeight"
+          [(ngModel)]="newGridHeight"
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+
+      <div class="formItem">
+        <label class="formItemLabel" for="speed">Speed</label>
+        <select
+          class="selectGrid"
+          id="speed"
+          name="speed"
+          [(ngModel)]="selectedSpeed"
+        >
+          <option [ngValue]="slow">Slow</option>
+          <option [ngValue]="normal">Normal</option>
+          <option [ngValue]="fast">Fast</option>
+        </select>
+      </div>
+
+      <div class="formItem">
+        <label class="formItemLabel" for="probability"
+          >Initial life probability</label
+        >
+        <select
+          class="selectGrid"
+          id="probability"
+          name="probability"
+          [(ngModel)]="selectedProbability"
+        >
+          <option
+            *ngFor="let probability of probabilities"
+            [ngValue]="probability"
+          >
+            {{ probability * 100 }}%
+          </option>
+        </select>
+      </div>
+
+      <button class="formButton" type="button" (click)="togglePause()">
+        {{ isPaused ? "Resume" : "Pause" }}
+      </button>
+      <button class="formButton" type="submit">Apply</button>
+    </form>
+
+    <div *ngIf="isLoading">
+      <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
+    </div>
+    <span class="aliveLabel">Currently alive</span>
+    <div class="alivePercentage">
+      <div
+        class="alivePercentageIndicator"
+        [style.width.%]="getAliveCellPercentage()"
+      >
+        <span class="aliveNumber">{{ getAliveCellPercentage() }}%</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <table>
+        <tbody>
+          <tr *ngFor="let row of grid; let i = index">
+            <td *ngFor="let cell of row; let j = index" [class.alive]="cell">
+              <div (click)="toggleCell(i, j)"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,13 @@ import { Routes } from '@angular/router';
 import { ArticleComponent } from './article/article.component';
 import { TableComponent } from './table/table.component';
 import { HomeComponent } from './home/home.component';
+import { GameBoardComponent } from './game-board/game-board.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
   {
     path: 'article',
     component: ArticleComponent,
@@ -13,7 +18,7 @@ export const routes: Routes = [
     component: TableComponent,
   },
   {
-    path: '',
-    component: HomeComponent,
+    path: 'game',
+    component: GameBoardComponent,
   },
 ];
