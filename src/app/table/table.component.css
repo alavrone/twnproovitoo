@@ -35,9 +35,9 @@ tr:nth-child(even) td {
   height: 100px;
 }
 
-.trHeader {
+/* .trHeader {
   cursor: pointer;
-}
+} */
 
 .icon {
   height: 1.3rem;

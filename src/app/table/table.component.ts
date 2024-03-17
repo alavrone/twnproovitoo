@@ -20,6 +20,14 @@ export class TableComponent implements OnInit {
   originalData: any[] = [];
   toggledRows: Set<any> = new Set();
 
+  columns = [
+    { key: 'firstname', title: 'Eesnimi' },
+    { key: 'surname', title: 'Perekonnanimi' },
+    { key: 'sex', title: 'Sugu' },
+    { key: 'personal_code', title: 'Sünnikuupäev' },
+    { key: 'phone', title: 'Telefon' },
+  ];
+
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
@@ -32,10 +40,27 @@ export class TableComponent implements OnInit {
       .get('https://midaiganes.irw.ee/api/list?limit=500')
       .subscribe((response: any) => {
         console.log(response);
-        this.data = response.list;
+        this.data = response.list.map((item: any) => {
+          if (item.personal_code) {
+            item.personal_code = this.convertBirthday(item.personal_code);
+          }
+          console.log(item.personal_code);
+          return item;
+        });
         this.isLoading = false;
       });
   }
+
+  // getData(): void {
+  //   this.isLoading = true;
+  //   this.http
+  //     .get('https://midaiganes.irw.ee/api/list?limit=500')
+  //     .subscribe((response: any) => {
+  //       console.log(response);
+  //       this.data = response.list;
+  //       this.isLoading = false;
+  //     });
+  // }
 
   toggleRow(item: any) {
     if (this.toggledRows.has(item)) {
@@ -85,7 +110,9 @@ export class TableComponent implements OnInit {
   }
 
   changeSortColumn(order: string): void {
-    this.sortData(order);
+    if (order !== 'phone') {
+      this.sortData(order);
+    }
   }
 
   getColumnSortState(column: string): string {

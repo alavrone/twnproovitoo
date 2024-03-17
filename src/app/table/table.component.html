@@ -9,6 +9,40 @@
       <table>
         <thead>
           <tr class="trHeader">
+            <ng-container *ngFor="let column of columns">
+              <th
+                (click)="changeSortColumn(column.key)"
+                [ngStyle]="{
+                  cursor: column.key !== 'phone' ? 'pointer' : 'default'
+                }"
+              >
+                {{ column.title }}
+                <ng-container *ngIf="column.key !== 'phone'">
+                  <img
+                    class="icon"
+                    *ngIf="getColumnSortState(column.key) === 'def'"
+                    src="assets/images/sort-solid.svg"
+                    alt="Default"
+                  />
+                  <img
+                    class="icon"
+                    *ngIf="getColumnSortState(column.key) === 'asc'"
+                    src="assets/images/sort-down-solid.svg"
+                    alt="Ascending"
+                  />
+                  <img
+                    class="icon"
+                    *ngIf="getColumnSortState(column.key) === 'desc'"
+                    src="assets/images/sort-up-solid.svg"
+                    alt="Descending"
+                  />
+                </ng-container>
+              </th>
+            </ng-container>
+          </tr>
+        </thead>
+        <!-- <thead>
+          <tr class="trHeader">
             <th (click)="changeSortColumn('firstname')">
               Eesnimi
               <img
@@ -95,14 +129,14 @@
             </th>
             <th>Telefon</th>
           </tr>
-        </thead>
+        </thead> -->
         <tbody>
           <ng-container *ngFor="let item of paginateData()">
             <tr [class.toggled]="isRowToggled(item)" (click)="toggleRow(item)">
               <td>{{ item.firstname }}</td>
               <td>{{ item.surname }}</td>
               <td>{{ changeSex(item.sex) }}</td>
-              <td>{{ reverseDates(convertBirthday(item.personal_code)) }}</td>
+              <td>{{ reverseDates(item.personal_code) }}</td>
               <td>{{ item.phone }}</td>
             </tr>
             <tr *ngIf="isRowToggled(item)">
