@@ -41,95 +41,7 @@
             </ng-container>
           </tr>
         </thead>
-        <!-- <thead>
-          <tr class="trHeader">
-            <th (click)="changeSortColumn('firstname')">
-              Eesnimi
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('firstname') === 'def'"
-                src="assets/images/sort-solid.svg"
-                alt="Default"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('firstname') === 'asc'"
-                src="assets/images/sort-down-solid.svg"
-                alt="Ascending"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('firstname') === 'desc'"
-                src="assets/images/sort-up-solid.svg"
-                alt="Descending"
-              />
-            </th>
-            <th (click)="changeSortColumn('surname')">
-              Perekonnanimi
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('surname') === 'def'"
-                src="assets/images/sort-solid.svg"
-                alt="Default"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('surname') === 'asc'"
-                src="assets/images/sort-down-solid.svg"
-                alt="Ascending"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('surname') === 'desc'"
-                src="assets/images/sort-up-solid.svg"
-                alt="Descending"
-              />
-            </th>
-            <th (click)="changeSortColumn('sex')">
-              Sugu
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('sex') === 'def'"
-                src="assets/images/sort-solid.svg"
-                alt="Default"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('sex') === 'asc'"
-                src="assets/images/sort-down-solid.svg"
-                alt="Ascending"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('sex') === 'desc'"
-                src="assets/images/sort-up-solid.svg"
-                alt="Descending"
-              />
-            </th>
-            <th (click)="changeSortColumn('personal_code')">
-              Sünnikuupäev
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('personal_code') === 'def'"
-                src="assets/images/sort-solid.svg"
-                alt="Default"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('personal_code') === 'asc'"
-                src="assets/images/sort-down-solid.svg"
-                alt="Ascending"
-              />
-              <img
-                class="icon"
-                *ngIf="getColumnSortState('personal_code') === 'desc'"
-                src="assets/images/sort-up-solid.svg"
-                alt="Descending"
-              />
-            </th>
-            <th>Telefon</th>
-          </tr>
-        </thead> -->
+
         <tbody>
           <ng-container *ngFor="let item of paginateData()">
             <tr [class.toggled]="isRowToggled(item)" (click)="toggleRow(item)">
@@ -160,7 +72,7 @@
                         {{ paragraph }}
                       </p>
                     </div>
-                    <a class="buttonSmall" href="/article/item.id"
+                    <a class="buttonSmall" [routerLink]="['/article', item.id]"
                       >LOE ROHKEM</a
                     >
                   </div>

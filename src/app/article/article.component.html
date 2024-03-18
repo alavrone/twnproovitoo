@@ -1,34 +1,31 @@
 <div class="page">
-  <div class="inline">
-    <div *ngIf="isLoading">
-      <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
+  <div *ngIf="isLoading">
+    <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
+  </div>
+  <div class="inline" *ngIf="!isLoading">
+    <h1>{{ data?.title }}</h1>
+    <p class="intro">{{ data?.intro }}</p>
+
+    <div class="imageContainer">
+      <img
+        class="responsiveImage"
+        src="{{ data?.image?.large }}"
+        srcset="{{ data?.image?.small }} 300w,
+                    {{ data?.image?.medium }} 600w,
+                    {{ data?.image?.large }} 1200w"
+        alt="{{ data?.image?.alt }}"
+        tabindex="0"
+        title="{{ data?.image?.title }}"
+      />
     </div>
-    <div *ngIf="!isLoading">
-      <h1>{{ data?.title }}</h1>
-      <p class="intro">{{ data?.intro }}</p>
 
-      <div class="imageContainer">
-        <img
-          src="{{ data?.image.large }}"
-          srcset="{{ data?.image.small }} 300w,
-                        {{ data?.image.medium }} 600w,
-                        {{ data?.image.large }} 1200w"
-          alt="{{ data?.image.alt }}"
-          tabindex="0"
-          height="500px"
-          width="1000px"
-          title="{{ data?.image.title }}"
-        />
-      </div>
+    <div *ngFor="let paragraph of paragraphs">
+      <p>{{ paragraph }}</p>
+    </div>
 
-      <div *ngFor="let paragraph of paragraphs">
-        <p>{{ paragraph }}</p>
-      </div>
-
-      <div class="tags">
-        <div class="tag" *ngFor="let tag of tags">
-          <span>{{ tag }}</span>
-        </div>
+    <div class="tags">
+      <div class="tag" *ngFor="let tag of tags">
+        <span>{{ tag }}</span>
       </div>
     </div>
   </div>

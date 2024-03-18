@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-article',
@@ -15,18 +16,31 @@ export class ArticleComponent implements OnInit {
   tags: string[] = [];
   isLoading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.fetchPosts();
+    this.getIdFromRouter();
   }
 
-  fetchPosts(): void {
+  getIdFromRouter(): void {
+    if (this.route.firstChild) {
+      this.route.firstChild.params.subscribe((params) => {
+        const id = params['id'];
+        const articleId = id;
+        this.fetchPosts(articleId);
+      });
+    } else {
+      const defaultId = '972d2b8a';
+      this.fetchPosts(defaultId);
+    }
+  }
+
+  fetchPosts(articleId: string): void {
     this.isLoading = true;
     this.http
-      .get('https://midaiganes.irw.ee/api/list/972d2b8a')
+      .get(`https://midaiganes.irw.ee/api/list/${articleId}`)
       .subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.data = response;
         this.parseParagraphs(response.body);
         this.data = this.removePTags(response);
@@ -45,9 +59,6 @@ export class ArticleComponent implements OnInit {
   }
 
   removePTags(data: any): any {
-    // if (data && data.body) {
-    //   data.body = data.body.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
-    // }
     if (data && data.intro) {
       data.intro = data.intro.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
     }

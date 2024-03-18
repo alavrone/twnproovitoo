@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-data-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   standalone: true,
 })
 export class TableComponent implements OnInit {
@@ -44,23 +44,11 @@ export class TableComponent implements OnInit {
           if (item.personal_code) {
             item.personal_code = this.convertBirthday(item.personal_code);
           }
-          console.log(item.personal_code);
           return item;
         });
         this.isLoading = false;
       });
   }
-
-  // getData(): void {
-  //   this.isLoading = true;
-  //   this.http
-  //     .get('https://midaiganes.irw.ee/api/list?limit=500')
-  //     .subscribe((response: any) => {
-  //       console.log(response);
-  //       this.data = response.list;
-  //       this.isLoading = false;
-  //     });
-  // }
 
   toggleRow(item: any) {
     if (this.toggledRows.has(item)) {
