@@ -1,30 +1,30 @@
 <div class="page">
-  <div *ngIf="articleDataService.isLoading">
+  <div *ngIf="dataService.isLoading">
     <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
   </div>
-  <div class="inline" *ngIf="!articleDataService.isLoading">
-    <h1>{{ articleDataService.data?.title }}</h1>
-    <p class="intro">{{ articleDataService.data?.intro }}</p>
+  <div class="inline" *ngIf="!dataService.isLoading">
+    <h1>{{ dataService.data?.title }}</h1>
+    <p class="intro">{{ dataService.data?.intro }}</p>
 
     <div class="imageContainer">
       <img
         class="responsiveImage"
-        src="{{ articleDataService.data?.image?.large }}"
-        srcset="{{ articleDataService.data?.image?.small }} 300w,
-                    {{ articleDataService.data?.image?.medium }} 600w,
-                    {{ articleDataService.data?.image?.large }} 1200w"
-        alt="{{ articleDataService.data?.image?.alt }}"
+        src="{{ dataService.data?.image?.large }}"
+        srcset="{{ dataService.data?.image?.small }} 300w,
+                    {{ dataService.data?.image?.medium }} 600w,
+                    {{ dataService.data?.image?.large }} 1200w"
+        alt="{{ dataService.data?.image?.alt }}"
         tabindex="0"
-        title="{{ articleDataService.data?.image?.title }}"
+        title="{{ dataService.data?.image?.title }}"
       />
     </div>
 
-    <div *ngFor="let paragraph of articleDataService.paragraphs">
+    <div *ngFor="let paragraph of dataService.paragraphs">
       <p>{{ paragraph }}</p>
     </div>
 
     <div class="tags">
-      <div class="tag" *ngFor="let tag of articleDataService.tags">
+      <div class="tag" *ngFor="let tag of dataService.tags">
         <span>{{ tag }}</span>
       </div>
     </div>

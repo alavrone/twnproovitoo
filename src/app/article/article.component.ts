@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ArticleDataService } from '../article-data.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-article',
@@ -17,10 +17,7 @@ export class ArticleComponent implements OnInit {
   // tags: string[] = [];
   // isLoading = false;
 
-  constructor(
-    public articleDataService: ArticleDataService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(public dataService: DataService, private route: ActivatedRoute) {}
   // constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -32,11 +29,11 @@ export class ArticleComponent implements OnInit {
       this.route.firstChild.params.subscribe((params) => {
         const id = params['id'];
         const articleId = id;
-        this.articleDataService.fetchPosts(articleId);
+        this.dataService.fetchPosts(articleId);
       });
     } else {
       const defaultId = '972d2b8a';
-      this.articleDataService.fetchPosts(defaultId);
+      this.dataService.fetchPosts(defaultId);
     }
   }
 

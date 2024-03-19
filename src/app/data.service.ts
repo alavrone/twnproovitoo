@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class ArticleDataService {
+export class DataService {
   data: any;
   paragraphs: string[] = [];
   tags: string[] = [];

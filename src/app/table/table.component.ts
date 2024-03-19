@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ArticleDataService } from '../article-data.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-data-table',
@@ -32,11 +32,11 @@ export class TableComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    public articleDataService: ArticleDataService
+    public dataService: DataService
   ) {}
 
   ngOnInit(): void {
-    this.articleDataService.getData();
+    this.dataService.getData();
   }
 
   // getData(): void {
@@ -76,9 +76,9 @@ export class TableComponent implements OnInit {
     });
 
     if (this.originalData.length === 0 && !this.sortDirection[sortColumn]) {
-      this.originalData = [...this.articleDataService.data];
+      this.originalData = [...this.dataService.data];
       // this.sortDirection[sortColumn] = 'def';
-      this.articleDataService.data.sort((a: any, b: any) => {
+      this.dataService.data.sort((a: any, b: any) => {
         return a[sortColumn] > b[sortColumn]
           ? 1
           : a[sortColumn] < b[sortColumn]
@@ -87,7 +87,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'asc';
     } else if (this.sortDirection[sortColumn] === 'asc') {
-      this.articleDataService.data.sort((a: any, b: any) => {
+      this.dataService.data.sort((a: any, b: any) => {
         return a[sortColumn] < b[sortColumn]
           ? 1
           : a[sortColumn] > b[sortColumn]
@@ -96,7 +96,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'desc';
     } else {
-      this.articleDataService.data = [...this.originalData];
+      this.dataService.data = [...this.originalData];
       this.sortDirection[sortColumn] = null;
       this.originalData = [];
     }
@@ -153,16 +153,11 @@ export class TableComponent implements OnInit {
 
   paginateData(): any[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.articleDataService.data.slice(
-      startIndex,
-      startIndex + this.pageSize
-    );
+    return this.dataService.data.slice(startIndex, startIndex + this.pageSize);
   }
 
   getPageRange(): number[] {
-    const totalPages = Math.ceil(
-      this.articleDataService.data.length / this.pageSize
-    );
+    const totalPages = Math.ceil(this.dataService.data.length / this.pageSize);
     const visiblePages = 5;
 
     let startPage = Math.max(
