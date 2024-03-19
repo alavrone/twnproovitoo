@@ -13,10 +13,10 @@ import { DataService } from '../data.service';
   standalone: true,
 })
 export class TableComponent implements OnInit {
-  // data: any;
+  data: any;
   pageSize = 10;
   currentPage = 1;
-  // isLoading = false;
+  isLoading = false;
   sortDirection: any = {};
   originalData: any[] = [];
   toggledRows: Set<any> = new Set();
@@ -36,7 +36,21 @@ export class TableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.getData();
+    this.getData();
+  }
+
+  getData(): void {
+    this.isLoading = true;
+    this.dataService.getDataAPI().subscribe((response: any) => {
+      console.log(response);
+      this.data = response.list.map((item: any) => {
+        if (item.personal_code) {
+          item.personal_code = this.convertBirthday(item.personal_code);
+        }
+        return item;
+      });
+      this.isLoading = false;
+    });
   }
 
   // getData(): void {
@@ -76,9 +90,9 @@ export class TableComponent implements OnInit {
     });
 
     if (this.originalData.length === 0 && !this.sortDirection[sortColumn]) {
-      this.originalData = [...this.dataService.data];
+      this.originalData = [...this.data];
       // this.sortDirection[sortColumn] = 'def';
-      this.dataService.data.sort((a: any, b: any) => {
+      this.data.sort((a: any, b: any) => {
         return a[sortColumn] > b[sortColumn]
           ? 1
           : a[sortColumn] < b[sortColumn]
@@ -87,7 +101,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'asc';
     } else if (this.sortDirection[sortColumn] === 'asc') {
-      this.dataService.data.sort((a: any, b: any) => {
+      this.data.sort((a: any, b: any) => {
         return a[sortColumn] < b[sortColumn]
           ? 1
           : a[sortColumn] > b[sortColumn]
@@ -96,7 +110,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'desc';
     } else {
-      this.dataService.data = [...this.originalData];
+      this.data = [...this.originalData];
       this.sortDirection[sortColumn] = null;
       this.originalData = [];
     }
@@ -123,20 +137,20 @@ export class TableComponent implements OnInit {
     }
   }
 
-  // convertBirthday(psCode: number): string {
-  //   const psStr: String = psCode.toString();
-  //   const firstDigit: string = psStr.charAt(0);
-  //   const birthdayDigits: string = psStr.substring(1, 7);
-  //   let convertedBday: string = '';
+  convertBirthday(psCode: number): string {
+    const psStr: String = psCode.toString();
+    const firstDigit: string = psStr.charAt(0);
+    const birthdayDigits: string = psStr.substring(1, 7);
+    let convertedBday: string = '';
 
-  //   if (firstDigit === '3' || firstDigit === '4') {
-  //     convertedBday = '19' + birthdayDigits;
-  //   } else if (firstDigit === '5' || firstDigit === '6') {
-  //     convertedBday = '20' + birthdayDigits;
-  //   }
+    if (firstDigit === '3' || firstDigit === '4') {
+      convertedBday = '19' + birthdayDigits;
+    } else if (firstDigit === '5' || firstDigit === '6') {
+      convertedBday = '20' + birthdayDigits;
+    }
 
-  //   return convertedBday;
-  // }
+    return convertedBday;
+  }
 
   reverseDates(birthday: string): string {
     const year: string = birthday.substring(0, 4);
@@ -153,11 +167,11 @@ export class TableComponent implements OnInit {
 
   paginateData(): any[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.dataService.data.slice(startIndex, startIndex + this.pageSize);
+    return this.data.slice(startIndex, startIndex + this.pageSize);
   }
 
   getPageRange(): number[] {
-    const totalPages = Math.ceil(this.dataService.data.length / this.pageSize);
+    const totalPages = Math.ceil(this.data.length / this.pageSize);
     const visiblePages = 5;
 
     let startPage = Math.max(

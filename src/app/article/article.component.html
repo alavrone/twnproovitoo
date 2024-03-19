@@ -1,30 +1,30 @@
 <div class="page">
-  <div *ngIf="dataService.isLoading">
+  <div *ngIf="isLoading">
     <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
   </div>
-  <div class="inline" *ngIf="!dataService.isLoading">
-    <h1>{{ dataService.data?.title }}</h1>
-    <p class="intro">{{ dataService.data?.intro }}</p>
+  <div class="inline" *ngIf="!isLoading">
+    <h1>{{ data?.title }}</h1>
+    <p class="intro">{{ data?.intro }}</p>
 
     <div class="imageContainer">
       <img
         class="responsiveImage"
-        src="{{ dataService.data?.image?.large }}"
-        srcset="{{ dataService.data?.image?.small }} 300w,
-                    {{ dataService.data?.image?.medium }} 600w,
-                    {{ dataService.data?.image?.large }} 1200w"
-        alt="{{ dataService.data?.image?.alt }}"
+        src="{{ data?.image?.large }}"
+        srcset="{{ data?.image?.small }} 300w,
+                    {{ data?.image?.medium }} 600w,
+                    {{ data?.image?.large }} 1200w"
+        alt="{{ data?.image?.alt }}"
         tabindex="0"
-        title="{{ dataService.data?.image?.title }}"
+        title="{{ data?.image?.title }}"
       />
     </div>
 
-    <div *ngFor="let paragraph of dataService.paragraphs">
+    <div *ngFor="let paragraph of paragraphs">
       <p>{{ paragraph }}</p>
     </div>
 
     <div class="tags">
-      <div class="tag" *ngFor="let tag of dataService.tags">
+      <div class="tag" *ngFor="let tag of tags">
         <span>{{ tag }}</span>
       </div>
     </div>

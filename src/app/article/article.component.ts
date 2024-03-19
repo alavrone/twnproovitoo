@@ -12,10 +12,10 @@ import { DataService } from '../data.service';
   standalone: true,
 })
 export class ArticleComponent implements OnInit {
-  // data: any;
-  // paragraphs: string[] = [];
-  // tags: string[] = [];
-  // isLoading = false;
+  data: any;
+  paragraphs: string[] = [];
+  tags: string[] = [];
+  isLoading = false;
 
   constructor(public dataService: DataService, private route: ActivatedRoute) {}
   // constructor(private http: HttpClient, private route: ActivatedRoute) {}
@@ -29,13 +29,36 @@ export class ArticleComponent implements OnInit {
       this.route.firstChild.params.subscribe((params) => {
         const id = params['id'];
         const articleId = id;
-        this.dataService.fetchPosts(articleId);
+        this.dataService.fetchPosts(articleId).subscribe((response: any) => {
+          this.data = response;
+          this.parseParagraphs(response.body);
+          this.data = this.removePTags(response);
+          this.tags = this.data.tags;
+        });
       });
     } else {
       const defaultId = '972d2b8a';
-      this.dataService.fetchPosts(defaultId);
+      this.dataService.fetchPosts(defaultId).subscribe((response: any) => {
+        this.data = response;
+        this.parseParagraphs(response.body);
+        this.data = this.removePTags(response);
+        this.tags = this.data.tags;
+      });
     }
   }
+
+  // getIdFromRouter(): void {
+  //   if (this.route.firstChild) {
+  //     this.route.firstChild.params.subscribe((params) => {
+  //       const id = params['id'];
+  //       const articleId = id;
+  //       this.dataService.fetchPosts(articleId);
+  //     });
+  //   } else {
+  //     const defaultId = '972d2b8a';
+  //     this.dataService.fetchPosts(defaultId);
+  //   }
+  // }
 
   // fetchPosts(articleId: string): void {
   //   this.isLoading = true;
@@ -51,19 +74,19 @@ export class ArticleComponent implements OnInit {
   //     });
   // }
 
-  // parseParagraphs(body: string): void {
-  //   const parser = new DOMParser();
-  //   const doc = parser.parseFromString(body, 'text/html');
-  //   const paragraphs = doc.querySelectorAll('p');
-  //   paragraphs.forEach((paragraph) => {
-  //     this.paragraphs.push(paragraph.innerHTML);
-  //   });
-  // }
+  parseParagraphs(body: string): void {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(body, 'text/html');
+    const paragraphs = doc.querySelectorAll('p');
+    paragraphs.forEach((paragraph) => {
+      this.paragraphs.push(paragraph.innerHTML);
+    });
+  }
 
-  // removePTags(data: any): any {
-  //   if (data && data.intro) {
-  //     data.intro = data.intro.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
-  //   }
-  //   return data;
-  // }
+  removePTags(data: any): any {
+    if (data && data.intro) {
+      data.intro = data.intro.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
+    }
+    return data;
+  }
 }

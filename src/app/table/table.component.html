@@ -2,10 +2,10 @@
   <div class="inline">
     <h1>NIMEKIRI</h1>
 
-    <div *ngIf="dataService.isLoading">
+    <div *ngIf="isLoading">
       <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
     </div>
-    <div class="tableWrapper" *ngIf="!dataService.isLoading">
+    <div class="tableWrapper" *ngIf="!isLoading">
       <table>
         <thead>
           <tr class="trHeader">
@@ -94,7 +94,6 @@
             src="assets/images/chevron-left-solid.svg"
             alt="Left"
           />
-          <!-- Previous -->
         </button>
         <ng-container *ngFor="let page of getPageRange()">
           <button
@@ -108,14 +107,13 @@
         <button
           class="arrowButtons"
           (click)="changePage(currentPage + 1)"
-          [disabled]="currentPage * pageSize >= dataService.data.length"
+          [disabled]="currentPage * pageSize >= data.length"
         >
           <img
             class="arrows"
             src="assets/images/chevron-right-solid.svg"
             alt="Right"
           />
-          <!-- Next -->
         </button>
       </div>
     </div>
