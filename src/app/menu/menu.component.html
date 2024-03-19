@@ -1,0 +1,40 @@
+<div class="twnHeader">
+  <button class="toggleMenu" (click)="toggleMenu()">
+    <img
+      *ngIf="!isMenuVisible"
+      src="assets/images/bars-solid.svg"
+      alt="Bars"
+      class="bars"
+    />
+    <img
+      *ngIf="isMenuVisible"
+      src="assets/images/x-solid.svg"
+      alt="x"
+      class="x"
+    />
+  </button>
+  <img
+    src="assets/images/logo.svg"
+    alt="logo"
+    class="headerLogo"
+    tabindex="0"
+    aria-label="TWN logo"
+  />
+</div>
+
+<div class="menu" [ngClass]="{ showMenu: isMenuVisible }">
+  <ul class="vertical-list">
+    <img
+      src="assets/images/logo.svg"
+      alt="logo"
+      class="logo"
+      tabindex="0"
+      aria-label="TWN logo"
+      routerLink="/"
+    />
+
+    <a class="nav" routerLink="/article" routerLinkActive="active">Artikkel</a>
+    <a class="nav" routerLink="/table" routerLinkActive="active">Tabel</a>
+    <a class="nav" routerLink="/game" routerLinkActive="active">Game Of Life</a>
+  </ul>
+</div>

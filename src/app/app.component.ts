@@ -7,13 +7,20 @@ import {
   RouterModule,
   RouterOutlet,
 } from '@angular/router';
+import { MenuComponent } from './menu/menu.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    CommonModule,
+    MenuComponent,
+  ],
 })
 export class AppComponent {
   constructor(private router: Router) {
