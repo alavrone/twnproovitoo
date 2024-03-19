@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { ArticleDataService } from '../article-data.service';
 
 @Component({
   selector: 'app-article',
@@ -11,12 +12,16 @@ import { ActivatedRoute } from '@angular/router';
   standalone: true,
 })
 export class ArticleComponent implements OnInit {
-  data: any;
-  paragraphs: string[] = [];
-  tags: string[] = [];
-  isLoading = false;
+  // data: any;
+  // paragraphs: string[] = [];
+  // tags: string[] = [];
+  // isLoading = false;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(
+    public articleDataService: ArticleDataService,
+    private route: ActivatedRoute
+  ) {}
+  // constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getIdFromRouter();
@@ -27,41 +32,41 @@ export class ArticleComponent implements OnInit {
       this.route.firstChild.params.subscribe((params) => {
         const id = params['id'];
         const articleId = id;
-        this.fetchPosts(articleId);
+        this.articleDataService.fetchPosts(articleId);
       });
     } else {
       const defaultId = '972d2b8a';
-      this.fetchPosts(defaultId);
+      this.articleDataService.fetchPosts(defaultId);
     }
   }
 
-  fetchPosts(articleId: string): void {
-    this.isLoading = true;
-    this.http
-      .get(`https://midaiganes.irw.ee/api/list/${articleId}`)
-      .subscribe((response: any) => {
-        // console.log(response);
-        this.data = response;
-        this.parseParagraphs(response.body);
-        this.data = this.removePTags(response);
-        this.tags = this.data.tags;
-        this.isLoading = false;
-      });
-  }
+  // fetchPosts(articleId: string): void {
+  //   this.isLoading = true;
+  //   this.http
+  //     .get(`https://midaiganes.irw.ee/api/list/${articleId}`)
+  //     .subscribe((response: any) => {
+  //       // console.log(response);
+  //       this.data = response;
+  //       this.parseParagraphs(response.body);
+  //       this.data = this.removePTags(response);
+  //       this.tags = this.data.tags;
+  //       this.isLoading = false;
+  //     });
+  // }
 
-  parseParagraphs(body: string): void {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(body, 'text/html');
-    const paragraphs = doc.querySelectorAll('p');
-    paragraphs.forEach((paragraph) => {
-      this.paragraphs.push(paragraph.innerHTML);
-    });
-  }
+  // parseParagraphs(body: string): void {
+  //   const parser = new DOMParser();
+  //   const doc = parser.parseFromString(body, 'text/html');
+  //   const paragraphs = doc.querySelectorAll('p');
+  //   paragraphs.forEach((paragraph) => {
+  //     this.paragraphs.push(paragraph.innerHTML);
+  //   });
+  // }
 
-  removePTags(data: any): any {
-    if (data && data.intro) {
-      data.intro = data.intro.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
-    }
-    return data;
-  }
+  // removePTags(data: any): any {
+  //   if (data && data.intro) {
+  //     data.intro = data.intro.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
+  //   }
+  //   return data;
+  // }
 }

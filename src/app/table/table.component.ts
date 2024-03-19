@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ArticleDataService } from '../article-data.service';
 
 @Component({
   selector: 'app-data-table',
@@ -12,10 +13,10 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
 })
 export class TableComponent implements OnInit {
-  data: any;
+  // data: any;
   pageSize = 10;
   currentPage = 1;
-  isLoading = false;
+  // isLoading = false;
   sortDirection: any = {};
   originalData: any[] = [];
   toggledRows: Set<any> = new Set();
@@ -28,27 +29,31 @@ export class TableComponent implements OnInit {
     { key: 'phone', title: 'Telefon' },
   ];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public articleDataService: ArticleDataService
+  ) {}
 
   ngOnInit(): void {
-    this.getData();
+    this.articleDataService.getData();
   }
 
-  getData(): void {
-    this.isLoading = true;
-    this.http
-      .get('https://midaiganes.irw.ee/api/list?limit=500')
-      .subscribe((response: any) => {
-        console.log(response);
-        this.data = response.list.map((item: any) => {
-          if (item.personal_code) {
-            item.personal_code = this.convertBirthday(item.personal_code);
-          }
-          return item;
-        });
-        this.isLoading = false;
-      });
-  }
+  // getData(): void {
+  //   this.isLoading = true;
+  //   this.http
+  //     .get('https://midaiganes.irw.ee/api/list?limit=500')
+  //     .subscribe((response: any) => {
+  //       console.log(response);
+  //       this.data = response.list.map((item: any) => {
+  //         if (item.personal_code) {
+  //           item.personal_code = this.convertBirthday(item.personal_code);
+  //         }
+  //         return item;
+  //       });
+  //       this.isLoading = false;
+  //     });
+  // }
 
   toggleRow(item: any) {
     if (this.toggledRows.has(item)) {
@@ -71,9 +76,9 @@ export class TableComponent implements OnInit {
     });
 
     if (this.originalData.length === 0 && !this.sortDirection[sortColumn]) {
-      this.originalData = [...this.data];
+      this.originalData = [...this.articleDataService.data];
       // this.sortDirection[sortColumn] = 'def';
-      this.data.sort((a: any, b: any) => {
+      this.articleDataService.data.sort((a: any, b: any) => {
         return a[sortColumn] > b[sortColumn]
           ? 1
           : a[sortColumn] < b[sortColumn]
@@ -82,7 +87,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'asc';
     } else if (this.sortDirection[sortColumn] === 'asc') {
-      this.data.sort((a: any, b: any) => {
+      this.articleDataService.data.sort((a: any, b: any) => {
         return a[sortColumn] < b[sortColumn]
           ? 1
           : a[sortColumn] > b[sortColumn]
@@ -91,7 +96,7 @@ export class TableComponent implements OnInit {
       });
       this.sortDirection[sortColumn] = 'desc';
     } else {
-      this.data = [...this.originalData];
+      this.articleDataService.data = [...this.originalData];
       this.sortDirection[sortColumn] = null;
       this.originalData = [];
     }
@@ -118,20 +123,20 @@ export class TableComponent implements OnInit {
     }
   }
 
-  convertBirthday(psCode: number): string {
-    const psStr: String = psCode.toString();
-    const firstDigit: string = psStr.charAt(0);
-    const birthdayDigits: string = psStr.substring(1, 7);
-    let convertedBday: string = '';
+  // convertBirthday(psCode: number): string {
+  //   const psStr: String = psCode.toString();
+  //   const firstDigit: string = psStr.charAt(0);
+  //   const birthdayDigits: string = psStr.substring(1, 7);
+  //   let convertedBday: string = '';
 
-    if (firstDigit === '3' || firstDigit === '4') {
-      convertedBday = '19' + birthdayDigits;
-    } else if (firstDigit === '5' || firstDigit === '6') {
-      convertedBday = '20' + birthdayDigits;
-    }
+  //   if (firstDigit === '3' || firstDigit === '4') {
+  //     convertedBday = '19' + birthdayDigits;
+  //   } else if (firstDigit === '5' || firstDigit === '6') {
+  //     convertedBday = '20' + birthdayDigits;
+  //   }
 
-    return convertedBday;
-  }
+  //   return convertedBday;
+  // }
 
   reverseDates(birthday: string): string {
     const year: string = birthday.substring(0, 4);
@@ -148,11 +153,16 @@ export class TableComponent implements OnInit {
 
   paginateData(): any[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.data.slice(startIndex, startIndex + this.pageSize);
+    return this.articleDataService.data.slice(
+      startIndex,
+      startIndex + this.pageSize
+    );
   }
 
   getPageRange(): number[] {
-    const totalPages = Math.ceil(this.data.length / this.pageSize);
+    const totalPages = Math.ceil(
+      this.articleDataService.data.length / this.pageSize
+    );
     const visiblePages = 5;
 
     let startPage = Math.max(

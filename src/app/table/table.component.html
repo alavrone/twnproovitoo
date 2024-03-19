@@ -2,10 +2,10 @@
   <div class="inline">
     <h1>NIMEKIRI</h1>
 
-    <div *ngIf="isLoading">
+    <div *ngIf="articleDataService.isLoading">
       <img src="assets/images/loader.svg" alt="Loading..." class="loader" />
     </div>
-    <div class="tableWrapper" *ngIf="!isLoading">
+    <div class="tableWrapper" *ngIf="!articleDataService.isLoading">
       <table>
         <thead>
           <tr class="trHeader">
@@ -108,7 +108,7 @@
         <button
           class="arrowButtons"
           (click)="changePage(currentPage + 1)"
-          [disabled]="currentPage * pageSize >= data.length"
+          [disabled]="currentPage * pageSize >= articleDataService.data.length"
         >
           <img
             class="arrows"

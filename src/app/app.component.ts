@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  Router,
   RouterLink,
   RouterLinkActive,
   RouterModule,
@@ -15,5 +16,8 @@ import {
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  constructor(private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
   title = 'proovitoo';
 }
